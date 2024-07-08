@@ -1,0 +1,24 @@
+```{r, results='asis', echo=TRUE}
+# Данные о росте и весе
+height <- c(170, 165, 174, 171, 180, 180, 167, 168, 170)
+weight <- c(65, 55, 85, 75, 88, 92, 75, 77, 87)
+
+# а) Средний рост людей
+mean_height <- mean(height)
+mean_height
+
+# б) Корреляция между ростом и весом
+correlation <- cor(height, weight)
+correlation
+
+# Использование функции length
+# Функция length возвращает количество элементов в векторе
+length_height <- length(height)
+length_height
+
+# Использование функции sort
+# Функция sort сортирует элементы вектора
+# Аргумент decreasing указывает, нужно ли сортировать по убыванию (TRUE) или по возрастанию (FALSE)
+sorted_weight <- sort(weight, decreasing = FALSE)
+sorted_weight
+```

@@ -1,0 +1,18 @@
+```{r, results='asis', echo=TRUE}
+# 6.1
+# Диаграмма 1 – Зависимость времени бодрствования(awake) от времени сна(sleep_total)
+library(ggplot2)
+ggplot(msleep, aes(sleep_total, awake)) +
+  geom_point()
+
+# 6.2
+# Исходя из результатов диаграммы 1 видим, что:
+# во-первых, в сутках 24 часа, т.е. если сложить awake и sleep_total в любой из точек получим 24
+# во-вторых, зависимость времени бодрствования от времени сна обратно пропорциональная, т.е. больше бодрствуем – меньше спим
+
+# 6.3
+ggplot(msleep, aes(log(bodywt), log(brainwt), colour = sleep_total)) +
+  geom_point() + 
+  xlab("Brain weight(kg)") +
+  ylab("Body weight(kg)")
+```

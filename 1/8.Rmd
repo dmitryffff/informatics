@@ -1,0 +1,21 @@
+```{r, results='asis', echo=TRUE}
+library(tidyverse)
+# 8.1
+ggplot(diamonds, aes(carat, price, colour = cut)) +
+  geom_point() +
+  xlab("Вес бриллиантов (carat)") +
+  ylab("Цена (USD)")
+
+# 8.2
+# alpha добавляет точкам прозрачность
+ggplot(diamonds, aes(carat, price, colour = cut)) +
+  geom_point(alpha = 0.25) +
+  xlab("Вес бриллиантов (carat)") +
+  ylab("Цена (USD)")
+
+# 8.3
+ggplot(diamonds, aes(carat, price, colour = cut, shape = cut)) +
+  geom_point(size = 1.5) +
+  xlab("Вес бриллиантов (carat)") +
+  ylab("Цена (USD)")
+```

@@ -1,0 +1,16 @@
+```{r, results='asis', echo=TRUE}
+# 7.1
+library(tidyverse)
+ggplot(diamonds, aes(carat, price)) +
+      geom_point() +
+      xlab("Carats") +
+      ylab("Price") +
+      facet_wrap(~cut)
+
+# 7.2
+ggplot(diamonds, aes(carat, price)) +
+      geom_point() +
+      xlab("Carats") +
+      ylab("Price") +
+      facet_wrap(~cut, nrow = 5)
+```

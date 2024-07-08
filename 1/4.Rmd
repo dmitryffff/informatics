@@ -1,0 +1,7 @@
+```{r, results='asis', echo=TRUE}
+sqrt(pi)
+log(4)
+1/0
+0/0
+sqrt(-1)
+```

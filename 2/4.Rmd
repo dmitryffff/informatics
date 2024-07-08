@@ -1,0 +1,42 @@
+---
+title: "Задание 3"
+output: html_document
+---
+
+## Решение
+
+```{r}
+#код решения задачи на языке R
+n1 <- 5250
+n2 <- 3200
+m1 <- 20
+m2 <- 5
+
+p1 <- m1 / n1
+p2 <- m2 / n2
+
+fi1 <- 2 * asin(sqrt(p1))
+fi2 <- 2 * asin(sqrt(p2))
+mfi1 <- 1 / sqrt(n1)
+mfi2 <- 1 / sqrt(n2)
+t <- 1.96
+
+Ifimin1 <- fi1 - t * mfi1
+Ifimax1 <- fi1 + t * mfi1
+Ifimin2 <- fi2 - t * mfi2
+Ifimax2 <- fi2 + t * mfi2
+
+Ipmax1 <- sin(Ifimax1 / 2)^2
+Ipmin1 <- sin(Ifimin1 / 2)^2
+Ipmax2 <- sin(Ifimax2 / 2)^2
+Ipmin2 <- sin(Ifimin2 / 2)^2
+
+cat(sprintf("Все величины приведены в процентах.\n
+p1: %.2f\n
+p2: %.2f\n
+Нижняя граница интервала для курящих: %.3f.\n
+Верхняя граница интервала для курящих: %.3f.\n
+Нижняя граница интервала для не курящих: %.3f.\n
+Верхняя граница интервала для не курящих: %.3f.",
+p1 * 100, p2 * 100, Ipmin1 * 100, Ipmax1 * 100, Ipmin2 * 100, Ipmax2 * 100))
+```

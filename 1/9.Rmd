@@ -1,0 +1,9 @@
+```{r, results='asis', echo=TRUE}
+library(tidyverse)
+ggplot(diamonds, aes(price)) +
+  geom_histogram()
+
+ggplot(diamonds, aes(price)) +
+  geom_histogram() +
+  facet_wrap(~cut)
+```

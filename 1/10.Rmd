@@ -1,0 +1,24 @@
+```{r, results='asis', echo=TRUE, highlight=TRUE}
+library(tidyverse)
+# 10.1
+ggplot(diamonds, aes(cut)) +
+  geom_bar()
+
+# 10.2
+ggplot(diamonds, aes(cut, fill = cut)) +
+  geom_bar()
+
+# 10.3
+# Меняем толщину столбцов при помощи параметра width
+ggplot(diamonds, aes(cut, fill = cut)) +
+  geom_bar(width = 0.5)
+
+# 10.4
+ggplot(diamonds, aes(cut, fill = clarity)) +
+  geom_bar(width = 0.5)
+
+# 10.5
+ggplot(diamonds, aes(cut, fill = clarity)) +
+  geom_bar(width = 0.5) +
+  coord_flip()
+```

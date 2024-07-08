@@ -1,0 +1,34 @@
+---
+title: "Формулы для вычисления доверительного интервала"
+output: html_document
+---
+
+## Формулы
+
+$$
+\bar{p} = \frac{m}{n}
+$$
+
+$$
+\varphi = 2 \ast \arcsin(\sqrt{\bar{p}})
+$$
+
+$$
+m_{\varphi} = \frac{1}{\sqrt{n}}
+$$
+
+$$
+I_{\varphi_{min}} = \varphi - t_{\alpha} \ast m_{\varphi}
+$$
+
+$$
+I_{\varphi_{max}} = \varphi + t_{\alpha} \ast m_{\varphi}
+$$
+
+$$
+I_{\alpha_{min}} = \sin^2 \left( \frac{I_{\varphi_{min}}}{2} \right)
+$$
+
+$$
+I_{\alpha_{max}} = \sin^2 \left( \frac{I_{\varphi_{max}}}{2} \right)
+$$

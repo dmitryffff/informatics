@@ -1,0 +1,73 @@
+---
+title: "Задание 3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if (!requireNamespace("DiagrammeR", quietly = TRUE)) {
+  install.packages("DiagrammeR", repos = "https://cloud.r-project.org/")
+}
+library(DiagrammeR)
+```
+
+## Задание 3
+
+При изучении летальности в возрасте 40-59 лет от астматических заболеваний установлено, что из n1 = 5250 курящих умерло m1 = 20 человек, а из n2 = 3200 некурящих умерло m2 = 5 человек. Дать точечную и интервальную оценку вероятности летального исхода при астматических заболеваниях среди курящих и некурящих.
+
+### Блок-схема алгоритма решения задачи
+
+```{r diagram, echo=FALSE}
+DiagrammeR::grViz("
+digraph flowchart {
+  node [fontname = Helvetica, shape = box]
+  
+  start [label = 'Начало']
+  define_vars [label = 'Определить n1, m1, n2, m2']
+  calc_p1 [label = 'Рассчитать p1 = m1 / n1']
+  calc_p2 [label = 'Рассчитать p2 = m2 / n2']
+  calc_se1 [label = 'Рассчитать SE1 = sqrt(p1 * (1 - p1) / n1)']
+  calc_se2 [label = 'Рассчитать SE2 = sqrt(p2 * (1 - p2) / n2)']
+  calc_ci1 [label = 'Рассчитать доверительный интервал для p1']
+  calc_ci2 [label = 'Рассчитать доверительный интервал для p2']
+  end [label = 'Конец']
+  
+  start -> define_vars -> calc_p1 -> calc_p2 -> calc_se1 -> calc_se2 -> calc_ci1 -> calc_ci2 -> end
+}
+")
+```
+
+### Решение задачи
+
+```{r solution}
+# Определяем переменные
+n1 <- 5250
+m1 <- 20
+n2 <- 3200
+m2 <- 5
+
+# Рассчитываем точечные оценки вероятностей
+p1 <- m1 / n1
+p2 <- m2 / n2
+
+# Рассчитываем стандартные ошибки
+se1 <- sqrt(p1 * (1 - p1) / n1)
+se2 <- sqrt(p2 * (1 - p2) / n2)
+
+# Рассчитываем доверительные интервалы (95%)
+alpha <- 0.05
+z <- qnorm(1 - alpha / 2)
+
+ci1_lower <- p1 - z * se1
+ci1_upper <- p1 + z * se1
+ci2_lower <- p2 - z * se2
+ci2_upper <- p2 + z * se2
+
+# Выводим результаты
+list(
+  p1 = p1,
+  ci1 = c(ci1_lower, ci1_upper),
+  p2 = p2,
+  ci2 = c(ci2_lower, ci2_upper)
+)
+```

@@ -1,0 +1,92 @@
+### Задание 1. Корреляция
+Напишите код R, необходимый для отбора из исходного набора данных MedRecord в таблицу dt_cor переменных age, gender01, weight, height, BMI, p_sick. С помощью функции cov() и cor() вычислите попарные ковариации и корреляции. Выведите диаграмму коррелограмму.
+
+```{r exercise=TRUE, exercise.eval=TRUE}
+# Установка и загрузка необходимых пакетов
+install.packages("./medrwork", repos = NULL, type = "source")
+install.packages("Hmisc", repos = "https://cloud.r-project.org/")
+install.packages("corrplot", repos = "https://cloud.r-project.org/")
+
+library(medrwork)
+library(Hmisc)
+library(corrplot)
+
+# Создание подмножества данных для варианта 1
+MedRecord_nns_1 <- subset(medrwork::MedRecord, group == 1,
+                          select = c(gender01, age, weight, height, BMI, p_sick))
+
+# Экспорт подмножества данных в файл CSV
+write.csv(MedRecord_nns_1, "./data/MedRecord_nns_1.csv", row.names=FALSE, fileEncoding="UTF-8")
+
+# Импорт набора данных из файла CSV обратно в рабочую среду R
+MedRecord_nns_1 <- read.csv("./data/MedRecord_nns_1.csv", header=TRUE, sep=",", fileEncoding="UTF-8")
+
+# Просмотр первых строк полученного набора данных
+head(MedRecord_nns_1)
+
+# Отбор необходимых переменных
+dt_cor <- MedRecord_nns_1[, c("age", "gender01", "weight", "height", "BMI", "p_sick")]
+
+# Вычисление ковариаций
+cov_matrix <- cov(dt_cor, use = "complete.obs")
+
+# Вычисление корреляций
+cor_matrix <- cor(dt_cor, use = "complete.obs")
+
+# Вывод ковариационной матрицы
+print("Ковариационная матрица:")
+print(cov_matrix)
+
+# Вывод корреляционной матрицы
+print("Корреляционная матрица:")
+print(cor_matrix)
+
+# Построение коррелограммы
+corrplot(cor_matrix, method = "circle", type = "upper", tl.col = "black", tl.srt = 45)
+```
+
+### Задание 2. Регрессия
+
+Напишите код R, необходимый для отбора из исходного набора данных MedRecord в таблицу MR_lm переменных p_sick, age, BMI. Создайте модель множественной регрессии с помощью функции lm(), в которой зависимая переменная - это самооценка нездоровья - p_sick, а независимые - возраст age и индекс массы тела BMI. Выведите коэффициенты модели с помощью функции summary(). Постройте диаграмму рассеяния и линию регрессии по полученной регрессионной модели.
+
+```{r exercise=TRUE, exercise.eval=TRUE}
+# Установка и загрузка необходимых пакетов
+install.packages("./medrwork", repos = NULL, type = "source")
+install.packages("Hmisc", repos = "https://cloud.r-project.org/")
+install.packages("corrplot", repos = "https://cloud.r-project.org/")
+
+library(medrwork)
+library(Hmisc)
+library(corrplot)
+
+# Создание подмножества данных для варианта 1
+MedRecord_nns_1 <- subset(medrwork::MedRecord, group == 1,
+                          select = c(gender01, age, weight, height, BMI, p_sick))
+
+# Экспорт подмножества данных в файл CSV
+write.csv(MedRecord_nns_1, "./data/MedRecord_nns_1.csv", row.names=FALSE, fileEncoding="UTF-8")
+
+# Импорт набора данных из файла CSV обратно в рабочую среду R
+MedRecord_nns_1 <- read.csv("./data/MedRecord_nns_1.csv", header=TRUE, sep=",", fileEncoding="UTF-8")
+
+# Отбор необходимых переменных
+MR_lm <- MedRecord_nns_1[, c("p_sick", "age", "BMI")]
+
+# Создание модели множественной регрессии
+model <- lm(p_sick ~ age + BMI, data = MR_lm)
+
+# Вывод коэффициентов модели
+summary(model)
+
+# Создание предсказанных значений
+MR_lm$predicted_p_sick <- predict(model, newdata = MR_lm)
+
+# Построение диаграммы рассеяния и линии регрессии
+ggplot(MR_lm, aes(x = age, y = p_sick)) +
+  geom_point() +
+  geom_line(aes(y = predicted_p_sick), color = "blue") +
+  labs(title = "Диаграмма рассеяния и линия регрессии",
+       x = "Возраст",
+       y = "Самооценка нездоровья (p_sick)") +
+  theme_minimal()
+```

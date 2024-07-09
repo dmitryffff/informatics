@@ -1,0 +1,271 @@
+---
+title: "E03: Statistics of Scientific Data"
+author: "<br> &#169; <i>Коллектив авторов, 2023</i>"
+date: "2024-09-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+::: {align="center"}
+## Практическое задание № 3
+
+**практики**: Научно-исследовательская работа
+
+**на тему:** Статистическая обработка научных данных: базовые методы.
+
+**обучающегося:**казетова \*\*
+
+7 **факультета** **курса** 32-1 **группы**
+
+**по специальности:** Лечебное дело
+
+\*\*номер варианта:*1*
+
+**дата выполнения:** *10.04.24* г.
+:::
+
+------------------------------------------------------------------------
+
+\### Вопрос 1. Отбор переменных и строк из набора данных для статистического анализа
+
+Напишите код R, необходимый для отбора из исходного набора данных `MedRecord` в таблицу `MedRecord_stat_ХХ` переменных `cid`, `age`, `gender`, `weight`, `height`, `lungcap`, `smoke`. Группа - `group == "назначенный вам вариант"`. Выведите на экран 5 строк созданной таблицы `MedRecord_stat_ХХ` Напишите код, чтобы ограничить количество печатаемых строк до 5: `MedRecord_stat_ХХ`
+
+```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
+MedRecord_stat_3 <- subset(medrwork::MedRecord, 
+                           group == "1",
+                           select = c(cid, age, gender, weight, height, lungcap, smoke, HEALTH, TRUD, MILSPECIALTY))
+
+
+```
+
+### Вопрос 2. Статистическая (числовая) сводка набора данных
+
+2.1. Выведите 5 первых строк таблицы данных для вашего варианта `MedRecord_stat_XX`.
+```{r}
+
+```
+
+```{r echo=TRUE}
+head(MedRecord_stat_3,5)
+```
+
+2.2. Сохраните 5-е значение переменной `weight`в переменную `save5`. Замените 5-е
+
+```         
+MedRecord_stat <- subset(MedRecord, 
+                         group == "1",
+                         select = c(cid, age, gender, weight, height, lungcap, smoke, HEALTH, TRUD, MILSPECIALTY))
+```
+
+значение переменной `weight` на `NA`, т.е. на обозначение, используемое в R для отсутствующих наблюдений (от *not available* - не доступно), а затем вычислите среднее значение `weight`, выведите полученный результат на экран.
+
+```{r echo=TRUE}
+save5 <- MedRecord_stat_3$weight[5]
+MedRecord_stat_3$weight[5] <- NA
+mean(MedRecord_stat_3$weight)
+```
+
+2.3. Определите размера вектора (переменной) `weight`.
+
+```{r echo=TRUE}
+length((MedRecord_stat_3$weight))
+```
+
+2.4. Подсчитайте количество отсутствующих значений `weight`, используя функцию `sum()`и `is.na()`.
+
+```{r echo=TRUE}
+sum(MedRecord_stat_3$weight)
+```
+
+2.5. Верните 5-е значение переменной в исходное состояние (из переменной `save5`):
+
+```{r echo=TRUE}
+MedRecord_stat_3$weight[5] <- save5
+MedRecord_stat_3$weight[5]
+```
+
+2.6. Выведите порядковые номера элементов записей переменной `weight`, обладающих минимальным и максимальным значениями, с помощью функций `rownames()`, `which.min()`, `which.max()`
+
+```{r echo=TRUE}
+which.min(MedRecord_stat_3$weight)
+which.max(MedRecord_stat_3$weight)         
+```
+
+2.7. Используя функцию `summary()` выведите на экран статистическую (числовую) сводку значений переменной `weight`
+
+```{r echo=TRUE}
+summary(MedRecord_stat_3$weight)
+```
+
+2.8. Используя функцию `summary()` выведите на экран статистическую (числовую) сводку значений таблицы `MedRecord_stat_XX`
+
+```{r echo=TRUE}
+summary(MedRecord_stat_3)
+```
+
+2.8. Используя функцию `as.factor()` преобразуйте векторы `smoke` и `HEALTH` в факторы, и выведите результат на экран.
+
+```{r echo=TRUE}
+MedRecord_stat_3$smoke
+MedRecord_stat_3$HEALTH <- factor(MedRecord_stat_3$HEALTH, 
+                                  levels = c(1,2,3), 
+                                  labels = c("1 гр.", "2 гр.", "3 гр."))
+
+MedRecord_stat_3$smoke <- factor(MedRecord_stat_3$smoke,  
+                                 levels = c(0,1), # есть еще 0, но мы его пропускаем (он становится NA)
+                                 labels = c("не курит", "курит"))
+
+MedRecord_stat_3$HEALTH
+```
+
+### Вопрос 3. Вычисление отдельных описательных статистик
+
+3.1. Напишите код R, необходимый для вычисления среднего арифметического значения роста пациента (`height`) в `MedRecord_stat_ХХ`:
+
+```{r mean_height, exercise=TRUE}
+mean(MedRecord_stat_3$height)
+```
+
+3.2. Напишите код R, необходимый для вычисления медианы значения роста (`height`) в `MedRecord_stat_ХХ`:
+
+```{r median_height, exercise=TRUE}
+median(MedRecord_stat_3$height)
+```
+
+3.3. Напишите код R, необходимый для вычисления дисперсии значения роста (`height`) в `MedRecord_stat_ХХ`:
+
+```{r var_height, exercise=TRUE}
+var(MedRecord_stat_3$height)
+```
+
+3.4. Напишите код R, необходимый для вычисления стандартного отклонения значения роста (`height`) в `MedRecord_stat_ХХ`:
+
+```{r sd_height, exercise=TRUE}
+sd(MedRecord_stat_3$height)
+```
+
+3.5. Напишите код R, необходимый для вычисления максимального и минимального значения роста дисперсии значения роста (`height`) в `MedRecord_stat_ХХ`:
+
+```{r max_min_height, exercise=TRUE}
+min(MedRecord_stat_3$height)
+max(MedRecord_stat_3$height)
+```
+
+3.6. Напишите код R, необходимый для вычисления квантилей значения роста (`height`) в `MedRecord_stat_ХХ`:
+
+```{r quantile_height, exercise=TRUE}
+quantile(MedRecord_stat_3$height)
+```
+
+3.7. Напишите код R, необходимый для вычисления интерквартильного размаха значения роста (`height`) в `MedRecord_stat_ХХ` с помощью функции `IQR()`:
+
+```{r }
+IQR(MedRecord_stat_3$height)
+```
+
+3.8. Напишите код R, необходимый для вычисления среднего значения массы тела для пациентов мужского пола в `MedRecord_stat_ХХ`:
+
+```{r }
+mean(MedRecord_stat_3$weight)
+```
+
+### Вопрос 4. Вычисление (абсолютных) частот и относительных частот
+
+4.1. Преобразуйте переменную `gender` из текущего типа `character` в фактор без дополнительных аргументов с помощью функции `factor()`.
+
+```{r }
+MedRecord_stat_3$gender <- factor(MedRecord_stat_3$gender)
+```
+
+4.2. Вычислите частоты значений переменной `HEALTH` при помощи функции `table()`.
+
+```{r }
+table(MedRecord_stat_3$HEALTH)
+```
+
+4.3. Преобразуйте частоты в доли (долях, единицах) от целого значений переменной `HEALTH` при помощи команды `prop.table()`.
+
+```{r }
+prop.table(table(MedRecord_stat_3$HEALTH))
+```
+
+4.4. Преобразуйте частоты в проценты от целого значений переменной `HEALTH` при помощи команды `prop.table()*100`.
+
+```{r }
+prop.table(table(MedRecord_stat_3$HEALTH))*100
+```
+
+4.5. Создайте таблицу для двух переменных `smoke` и `gender` с помощью функции `xtabs()` и назовите её `tbl_sg`.
+
+```{r }
+tbl_sg <- xtabs(~ smoke + gender, data = MedRecord_stat_3) 
+tbl_sg
+
+
+```
+
+4.6. Рассчитайте частоты и доли от целого по столбцам или строкам таблицы `tbl_sg` при помощи команд `margin.table()` и `prop.table()`.
+
+```{r }
+margin.table(tbl_sg, 1)
+prop.table(tbl_sg)
+```
+
+4.7. Создайте таблицу сопряженности для двух переменных `smoke` и `HEALTH` с помощью функции `CrossTable()`.
+
+```{r }
+library(gmodels)
+useNA="ifany"
+CrossTable(MedRecord_stat_3$smoke, MedRecord_stat_3$HEALTH)
+```
+
+### Вопрос 5. Использование базовых диаграмм для визуализации результатов
+
+5.1. Представьте с помощью базовой функции `plot()` зависимость массы тела (`weight`) от роста (`height`).
+
+```{r }
+plot(MedRecord_stat_3$height, MedRecord_stat_3$weight)
+```
+
+5.2. Представьте мозаичную диаграмму с помощью функции `mosaic()`, отобразив таблицу `tbl_sg`.
+
+```{r }
+library('vcd')
+mosaic(tbl_sg)
+```
+
+5.3. Создайте таблицу `counts`, содержащую данные из `MedRecord_stat_ХХ$HEALTH` и постройте простую столбиковую диаграмму с помощью функции `barplot()`на её основе.
+
+```{r }
+counts <- table(MedRecord_stat_3$HEALTH)
+barplot(counts,
+        main = "Простая столбиковая диаграмма",
+        xlab = "Группы здоровья", ylab = "Частота")
+```
+
+5.4. Создайте таблицу `mytable`, содержащую данные из `MedRecord_stat_ХХ$HEALTH` и постройте простую круговую диаграмму с помощью функции `pie()`на её основе.
+
+```{r }
+mytable <- table(MedRecord_stat_3$HEALTH) 
+lbls <- paste(names(mytable), "\n", mytable, sep = "")  
+pie(mytable, labels = lbls,
+    main="Круговая диаграмма групп здоровья")  
+```
+
+5.5. Постройте простую гистрограмму для переменной `MedRecord_stat_ХХ$weight` с помощью функции `hist()`.
+
+```{r }
+hist(MedRecord_stat_3$weight)
+# 5.6.Постройте диаграмму размаха (ящик с усами) для переменной `MedRecord_stat_ХХ$weight` с помощью функции `boxplot()`.
+
+boxplot.stats(MedRecord_stat_3$weight)
+```
+
+5.6. Постройте диаграмму размаха (ящик с усами) для переменной `MedRecord_stat_ХХ$weight` с помощью функции `boxplot()`.
+
+```{r }
+boxplot(MedRecord_stat_3$weight, main="Ящик с усами", ylab="Ящик с усами")
+```
